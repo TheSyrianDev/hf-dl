@@ -45,6 +45,6 @@ The token is read from `--token`, then `HF_TOKEN` / `HUGGING_FACE_HUB_TOKEN`, th
 
 ## License
 
-Copyright (C) 2026 hf-dl contributors.
+Copyright (c) 2026 Omar Baroud.
 
-Licensed under the [GNU Affero General Public License v3.0 or later](LICENSE). If you distribute a modified version, or run one as a network service, you must release your source under the same license and keep the copyright notices.
+Licensed under the [PolyForm Noncommercial License 1.0.0](LICENSE). Noncommercial use, modification and redistribution are permitted. Commercial use needs a separate written agreement; see [COMMERCIAL-LICENSING.md](COMMERCIAL-LICENSING.md).

@@ -5,7 +5,7 @@ members = ["crates/hfd-core", "crates/hfd-cli"]
 [workspace.package]
 version = "0.1.0"
 edition = "2024"
-license = "AGPL-3.0-or-later"
+license = "PolyForm-Noncommercial-1.0.0"
 rust-version = "1.88"
 repository = "https://github.com/TheSyrianDev/hf-dl"
 
