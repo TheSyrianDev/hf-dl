@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/banner.svg" alt="hf-dl" width="100%"></p>
+
 # hf-dl
 
 A Hugging Face downloader with resumable, segmented downloads, written in Rust. It installs two binaries, `hfd` and `hf-dl`, which are the same program.
