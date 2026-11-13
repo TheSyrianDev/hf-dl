@@ -1,0 +1,1 @@
+{"repoId":"acme/tiny","revision":"0123456789abcdef0123456789abcdef01234567","hf":false,"torrent":"/t/acme-tiny.torrent","files":[{"path":"model.gguf","size":3,"sha256":"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad","url":"https://example.invalid/model.gguf"}]}

@@ -1,0 +1,39 @@
+# Maintainer: Omar BAROOD
+pkgname=hfd
+pkgver=0.2.0
+pkgrel=1
+pkgdesc="Hugging Face downloader with resumable, segmented downloads"
+arch=('x86_64')
+url="https://github.com/TheSyrianDev/hf-dl"
+license=('Apache-2.0' 'LicenseRef-PolyForm-Noncommercial-1.0.0')
+depends=('gcc-libs')
+makedepends=('cargo')
+options=('!lto')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('SKIP')
+
+prepare() {
+  cd "hf-dl-$pkgver"
+  cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
+}
+
+build() {
+  cd "hf-dl-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  cargo build --frozen --release -p hfd-cli
+}
+
+check() {
+  cd "hf-dl-$pkgver"
+  cargo test --frozen --release -p hfd-core
+}
+
+package() {
+  cd "hf-dl-$pkgver"
+  install -Dm755 target/release/hfd "$pkgdir/usr/bin/hfd"
+  ln -s hfd "$pkgdir/usr/bin/hf-dl"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 crates/hfd-core/LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE-hfd-core"
+  install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+}
