@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320">
+<g transform="translate(96 64) scale(1.5)"><circle cx="64" cy="64" r="58" fill="#FFB31A"/>
+<circle cx="40" cy="46" r="7" fill="#2B2118"/><circle cx="88" cy="46" r="7" fill="#2B2118"/>
+<g fill="none" stroke="#2B2118" stroke-linecap="round" stroke-linejoin="round" stroke-width="9">
+<path d="M64 40 V80 M52 68 L64 80 L76 68"/><path d="M30 70 C36 104 92 104 98 70"/></g></g>
+<text x="352" y="170" font-family="JetBrains Mono, SFMono-Regular, Menlo, Consolas, monospace" font-size="96" font-weight="700" fill="#1F2328">hf-dl</text>
+<text x="356" y="226" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="30" fill="#59636E">Fast, resumable, segmented model downloads.</text>
+</svg>

@@ -1,0 +1,57 @@
+name: ci
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - run: cargo fmt --all --check
+      - run: cargo clippy --workspace --all-targets -- -D warnings
+      - run: cargo test --workspace
+  robustness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --release -p hfd-cli
+      - run: python3 tests/robustness/run_robustness.py
+  build:
+    name: build (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest, exe: "" }
+          - { os: macos-latest, exe: "" }
+          - { os: windows-latest, exe: ".exe" }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --release --workspace
+      - run: cargo test --release --workspace
+      - name: Smoke test built binaries
+        shell: bash
+        run: |
+          set -e
+          for bin in hfd hf-dl; do
+            exe="target/release/${bin}${{ matrix.exe }}"
+            "$exe" --version
+            "$exe" --help >/dev/null
+            "$exe" queue --help >/dev/null
+            if [ "${{ runner.os }}" != "Windows" ]; then "$exe" doctor --help >/dev/null; fi
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hfd-${{ runner.os }}-${{ runner.arch }}
+          path: |
+            target/release/hfd${{ matrix.exe }}
+            target/release/hf-dl${{ matrix.exe }}

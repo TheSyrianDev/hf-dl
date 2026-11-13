@@ -1,0 +1,54 @@
+# DRAFT, NOT ACTIVE. Copy to .github/workflows/release.yml after Omar tests it.
+# Builds hfd for Windows and macOS (Linux is built by packaging/tarball/build-release.sh).
+# Nothing is published unless a v* tag is pushed or the workflow is run by hand with a tag.
+name: release-draft
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "existing tag to build"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            asset: hfd-windows-x86_64.zip
+          - os: macos-14
+            target: aarch64-apple-darwin
+            asset: hfd-macos-aarch64.tar.gz
+          - os: macos-13
+            target: x86_64-apple-darwin
+            asset: hfd-macos-x86_64.tar.gz
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag }}
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+      - name: Test core
+        run: cargo test --release -p hfd-core --target ${{ matrix.target }}
+      - name: Build
+        run: cargo build --release -p hfd-cli --target ${{ matrix.target }}
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: Compress-Archive -Path target/${{ matrix.target }}/release/hfd.exe -DestinationPath ${{ matrix.asset }}
+      - name: Package (macOS)
+        if: runner.os == 'macOS'
+        run: tar czf ${{ matrix.asset }} -C target/${{ matrix.target }}/release hfd
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: ${{ matrix.asset }}
