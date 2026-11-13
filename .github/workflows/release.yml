@@ -24,7 +24,7 @@ jobs:
           - os: macos-14
             target: aarch64-apple-darwin
             asset: hfd-macos-aarch64.tar.gz
-          - os: macos-13
+          - os: macos-14
             target: x86_64-apple-darwin
             asset: hfd-macos-x86_64.tar.gz
     runs-on: ${{ matrix.os }}
