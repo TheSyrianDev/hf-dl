@@ -1,3 +1,5 @@
+<p align="center"><a href="https://github.com/TheSyrianDev/LastAI">Last AI</a> · <a href="https://github.com/TheSyrianDev/LastEngine">Last Engine</a> · <a href="https://github.com/TheSyrianDev/hf-dl">hf-dl</a></p>
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
   <img src="assets/banner-light.svg" alt="hf-dl" width="100%">
